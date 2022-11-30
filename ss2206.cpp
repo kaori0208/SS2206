@@ -3,35 +3,44 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <typeinfo>
 
 using namespace std;
 
-// txtファイルとmhdファイルを読み込むクラス
-class FileData{
-    string input_filename;
-    string output_filename;
+// Objectクラス作成
+class Object{
+    private:
+    // txtファイルの内容をtupple型で記録する
+    // vector<tupple<const string, string>> txtConfig = {{"Input",""},
+    //                                                  {"Output",""},
+    //                                                  {"ImageProcessing",""},
+    //                                                  {"WindowProcessing",""},
+    //                                                  {"WindowLevel",""}, 
+    //                                                  {"WindowWidth",""},
+    //                                                  {"MovingAverageFilterKernel",""},
+    //                                                  {"MedianFilterKernel",""}};
     public:
-    // FileData();
-    // ~FileData();
-    void LoadTxtFile();
+    // Object();
+    // ~Object();
+    void LoadTxtFile(string file_name);
     // LoadMhdFile();
 };
-// FileData::FileData(){}
-// FileData::~FileData(){}
+// Object::Object(){}
+// Object::~Object(){}
 
 // LoadTxtFile()関数　txtファイルから情報を読み取る関数
-void FileData::LoadTxtFile(){
+void Object::LoadTxtFile(string file_name){
 
     // テキストファイル読み込み
-    string file_name = "ProcessingParameter.txt";
     ifstream reading_file;
     vector<string> lines;
     string line;
     reading_file.open(file_name);
 
-    // ファイル読み込み例外処理
+    // ファイル読み込み　例外処理
     if(!reading_file.is_open()){
         cout << "Could not open file." << endl;
+        exit(-1);
     }
 
     // テキストファイルの情報を読み取る
@@ -45,15 +54,24 @@ void FileData::LoadTxtFile(){
 }
 
 // LoadMhdFile()関数　mhdファイルから画像情報を読み取る関数
-// FileData::LoadMhdFile(){
+// Object::LoadMhdFile(){
 //     return 0;
 // }
 
 // メイン関数 -----------------------------------------------------
-int main(){
+int main(int argc, char *argv[]){
+    
+    Object obj;
+
+    // コマンド引数　例外処理
+    if(argc < 2){
+        cout << "No program parameters provided !" << endl;
+        exit(-1);
+    }
+
+    string file_name(argv[1]);
     // 1. テキストファイルから必要な情報を取得
-    FileData ct1;
-    ct1.LoadTxtFile();
+    obj.LoadTxtFile(file_name);
 
     return 0;
 }
